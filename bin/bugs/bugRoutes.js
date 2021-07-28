@@ -12,21 +12,25 @@ router.get('/bugs', (req, res) => {
   const parse = [...req];
   bugControl.list(parse);
 });
+
 // GET a specific bug
 router.get('/bugs/:id', (req, res) => {
   const parse = [...req];
   bugControl.detail(parse);
 });
+
 // CREATE a new bug
 router.post('/bugs/:id', (req, res) => {
   const parse = [...req];
   bugControl.create(parse);
 });
+
 // DELETE a bug
 router.delete('/bugs/:id', (req, res) => {
   const parse = [...req];
-  bugControl.remove(parse);
+  bugControl.delete(parse);
 });
+
 // UPDATE a bug
 router.put('/bugs/:id', (req, res) => {
   const parse = [...req];
