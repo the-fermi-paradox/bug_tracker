@@ -1,4 +1,9 @@
-exports.list = (data) => {
+const model = require('./bugModel');
+// Our controllers should:
+// 1. send the relevant data to our model
+// 2. bundle the response and send to router
+
+exports.list = () => {
   return data;
 };
 
