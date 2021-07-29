@@ -8,7 +8,8 @@
   "dependencies": {
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "mariadb": "^2.5.4"
+    "mariadb": "^2.5.4",
+    "prettier": "^2.3.2"
   },
   "devDependencies": {
     "eslint": "^7.31.0",

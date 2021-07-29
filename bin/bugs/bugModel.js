@@ -1,9 +1,4 @@
-const db = require('../connectDB');
-
-// First issue:
-// We need more than IDs to create and update!
-// What data should we retrieve?
-
+const mariadb = require('mariadb');
 // SCHEMA:
 // bugs table:
 // bug_id int(11) not null primary key auto increment
@@ -15,22 +10,49 @@ const db = require('../connectDB');
 // bug_product_id int(11) not null foreign key -> products
 // created timestamp not null default 0000-00-00 00:00:00
 
-class BugModel {
-  static async createBug(id) {
-    return db.query('INSERT INTO bugs(');
-  }
+const BugModel = (async () => {
+  const db = await mariadb
+    .createConnection({
+      socketPath: '/run/mysqld/mysqld.sock',
+      user: 'root',
+      database: 'bugtracker',
+    })
+    .then((connection) => {
+      module.exports = connection;
+    })
+    .catch((err) => {
+      throw err;
+    });
 
-  static async getBug(id) {
-    return db.query('SELECT * FROM bugs WHERE id=(?)', [id]);
-  }
+  const createBug = async (data) => {
+    const now = Date.now();
+    return db.query(
+      'INSERT INTO bugs(bug_priority, bug_severity, bug_type, bug_reporter_id, bug_assignee_id, bug_product_id, created) VALUES(?, ?, ?, ?, ?, ?, ?)',
+      data.priority,
+      data.severity,
+      data.type,
+      data.reporterId,
+      data.assigneeId,
+      data.productId,
+      now,
+    );
+  };
 
-  static async getBugs() {
-    return db.query('SELECT * FROM bugs');
-  }
+  const updateBug = async (key, value) => db.query('UPDATE bugs SET (?) = (?);', key, value);
 
-  static async deleteBug(id) {
-    return db.query('DELETE * FROM bugs WHERE id=(?)', [id]);
-  }
-}
+  const getBug = async (id) => db.query('SELECT * FROM bugs WHERE id=(?)', [id]);
+
+  const listBugs = async () => db.query('SELECT * FROM bugs');
+
+  const deleteBug = async (id) => db.query('DELETE * FROM bugs WHERE id=(?)', [id]);
+
+  return {
+    createBug,
+    updateBug,
+    getBug,
+    listBugs,
+    deleteBug,
+  };
+})();
 
 module.exports = BugModel;
