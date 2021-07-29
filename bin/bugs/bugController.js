@@ -3,30 +3,40 @@ const model = require('./bugModel');
 // 1. send the relevant request to our model
 // 2. bundle the response and return it, sending to router
 
-exports.list = () => {
-  const res = model.listBugs();
-  return res;
+const BugController = async () => {
+  const list = async () => {
+    const res = await model.listBugs();
+    return res;
+  };
+
+  const detail = async (data) => {
+    const res = await model.getBug(data);
+    return res;
+  };
+
+  const create = async (data) => {
+    const res = await model.createBug(data);
+    return res;
+  };
+
+  const remove = async (data) => {
+    const res = await model.deleteBug(data);
+    return res;
+  };
+
+  const update = async (data) => {
+    const promises = Object.entries(data).map(([key, value]) => model.updateBug(key, value));
+    const res = await Promise.all(promises);
+    return res;
+  };
+
+  return {
+    list,
+    detail,
+    create,
+    remove,
+    update,
+  };
 };
 
-exports.detail = (data) => {
-  const res = model.getBug(data);
-  return res;
-};
-
-exports.create = (data) => {
-  const res = model.createBug(data);
-  return res;
-};
-
-exports.delete = (data) => {
-  const res = model.deleteBug(data);
-  return res;
-};
-
-exports.update = (data) => {
-  const res = [];
-  Object.entries(data).forEach(([key, value]) => {
-    if (value) res.push(model.updateBug(key, value));
-  });
-  return res;
-};
+module.exports = BugController;

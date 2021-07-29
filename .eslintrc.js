@@ -4,14 +4,17 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: [
-    'airbnb-base',
-    'plugin:security/recommended',
-  ],
+  extends: ['airbnb-base', 'plugin:security/recommended'],
   plugins: ['security'],
   parserOptions: {
     ecmaVersion: 12,
   },
   rules: {
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'LabeledStatement',
+      'WithStatement',
+    ],
   },
 };
