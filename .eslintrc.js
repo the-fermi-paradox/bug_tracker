@@ -16,5 +16,6 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
+    'no-unused-expressions': ['warn', { allowTernary: true }],
   },
 };

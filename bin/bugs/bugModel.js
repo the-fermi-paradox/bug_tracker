@@ -1,4 +1,7 @@
 const mariadb = require('mariadb');
+const schema = require('./bugValidation');
+const HTTPError = require('../errors/HTTPError');
+
 // SCHEMA:
 // bugs table:
 // bug_id int(11) not null primary key auto increment
@@ -21,11 +24,12 @@ const BugModel = (async () => {
       module.exports = connection;
     })
     .catch((err) => {
-      throw err;
+      throw new HTTPError(500, err);
     });
 
   const createBug = async (data) => {
     const now = Date.now();
+    schema.validate(data);
     return db.query(
       'INSERT INTO bugs(bug_priority, bug_severity, bug_type, bug_reporter_id, bug_assignee_id, bug_product_id, created) VALUES(?, ?, ?, ?, ?, ?, ?)',
       data.priority,
