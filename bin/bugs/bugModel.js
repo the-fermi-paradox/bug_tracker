@@ -27,10 +27,14 @@ const BugModel = (async () => {
       throw new HTTPError(500, err);
     });
 
+  const createTable = async () => {
+    db.query('CREATE TABLE IF NOT EXISTS bugs(id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY)';
+  }
+
   const createBug = async (data) => {
     const now = Date.now();
     schema.validate(data);
-    return db.query(
+    return await db.query(
       'INSERT INTO bugs(bug_priority, bug_severity, bug_type, bug_reporter_id, bug_assignee_id, bug_product_id, created) VALUES(?, ?, ?, ?, ?, ?, ?)',
       data.priority,
       data.severity,
@@ -42,13 +46,13 @@ const BugModel = (async () => {
     );
   };
 
-  const updateBug = async (key, value) => db.query('UPDATE bugs SET (?) = (?);', key, value);
+  const updateBug = async (key, value) => await db.query('UPDATE bugs SET (?) = (?);', key, value);
 
-  const getBug = async (id) => db.query('SELECT * FROM bugs WHERE id=(?)', [id]);
+  const getBug = async (id) => await db.query('SELECT * FROM bugs WHERE id=(?)', [id]);
 
-  const listBugs = async () => db.query('SELECT * FROM bugs');
+  const listBugs = async () => await db.query('SELECT * FROM bugs');
 
-  const deleteBug = async (id) => db.query('DELETE * FROM bugs WHERE id=(?)', [id]);
+  const deleteBug = async (id) => await db.query('DELETE * FROM bugs WHERE id=(?)', [id]);
 
   return {
     createBug,

@@ -17,5 +17,6 @@ module.exports = {
       'WithStatement',
     ],
     'no-unused-expressions': ['warn', { allowTernary: true }],
+    'no-return-await': 'off',
   },
 };
