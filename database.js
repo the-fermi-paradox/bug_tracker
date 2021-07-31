@@ -1,6 +1,6 @@
 const mariadb = require('mariadb');
-const HTTPError = require('./bin/errors/HTTPError');
-const logger = require('./bin/helpers/logger');
+const HTTPError = require('./src/errors/http_error');
+const logger = require('./src/helpers/logger');
 
 class Database {
   constructor() {

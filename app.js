@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs/promises');
-const handleError = require('./bin/errors/handle_error');
-const logger = require('./bin/helpers/logger');
+const handleError = require('./src/errors/handle_error');
+const logger = require('./src/helpers/logger');
 const db = require('./database');
 
 const app = express();

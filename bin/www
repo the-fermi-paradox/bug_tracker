@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const debug = require('debug')('bug-tracker:server');
 const http = require('http');
+const logger = require('../src/helpers/logger');
 const app = require('../app');
 
 const port = process.env.PORT || '3000';
@@ -12,8 +12,6 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('listening', () => {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  logger.info(`Listening on ${bind}`);
 });
