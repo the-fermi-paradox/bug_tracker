@@ -6,17 +6,6 @@ const tickets = require('./src/tickets/routes');
 
 const app = express();
 
-// Subscribe to events to listen to errors
-// in particular, we want to handle any unhandled promise rejections
-process.on('unhandledRejection', (error) => {
-  throw error;
-});
-
-process.on('uncaughtException', (error) => {
-  handleError(error);
-  process.exit(1);
-});
-
 // Log all incoming requests
 app.use((req, res, next) => {
   logger.http(req);
