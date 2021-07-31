@@ -4,8 +4,9 @@ const controller = require('./controller');
 const router = express.Router();
 
 // GET a list of all tickets
-router.get('/', () => {
-  controller.list();
+router.get('/', async (req, res, next) => {
+  const list = await controller.list().catch(next);
+  res.status(200).json(list);
 });
 
 // GET a specific ticket

@@ -3,7 +3,7 @@ const model = require('./model');
 // 1. send the relevant request to our model
 // 2. bundle the response and return it, sending to router
 
-const ticketController = (async () => {
+const ticketController = (() => {
   const list = async () => {
     const res = await model.listBugs();
     return res;
