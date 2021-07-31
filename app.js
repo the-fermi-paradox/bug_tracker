@@ -7,6 +7,17 @@ const db = require('./database');
 
 const app = express();
 
+// Subscribe to events to listen to errors
+// in particular, we want to handle any unhandled promise rejections
+process.on('unhandledRejection', (error) => {
+  throw error;
+});
+
+process.on('uncaughtException', (error) => {
+  handleError(error);
+  process.exit(1);
+});
+
 // Here we handle our middleware
 app.use((req, res, next) => {
   logger.http(req);
@@ -40,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // We send any errors to our handler if it's operational;
 // otherwise we let the default error handler take care of them
 app.use((err, req, res, next) => {
+  logger.error(err);
   err.isOperational ? handleError(err, res) : next(err);
 });
 
