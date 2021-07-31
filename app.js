@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs/promises');
-const handleError = require('./bin/errors/handleError');
+const handleError = require('./bin/errors/handle_error');
 const logger = require('./bin/helpers/logger');
 const db = require('./database');
 
@@ -16,12 +16,15 @@ app.use((req, res, next) => {
 // We initialize all of our tables.
 app.use(async (req, res, next) => {
   try {
+    // First read from the file holding our SQL queries
     /* eslint-disable-next-line security/detect-non-literal-fs-filename */
     const query = await fs.readFile(
       path.join(__dirname, 'schema.mysql'),
       'utf-8',
     );
+    // Establish a connection
     const connection = db.connect();
+    // Execute our query
     await connection.query(query);
     db.close(connection);
     next();
@@ -34,7 +37,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// We send any errors to our handler
+// We send any errors to our handler if it's operational;
+// otherwise we let the default error handler take care of them
 app.use((err, req, res, next) => {
   err.isOperational ? handleError(err, res) : next(err);
 });

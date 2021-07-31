@@ -1,4 +1,4 @@
-const model = require('./ticketModel');
+const model = require('./model');
 // Our controllers should:
 // 1. send the relevant request to our model
 // 2. bundle the response and return it, sending to router

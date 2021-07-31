@@ -1,6 +1,6 @@
 const db = require('../../database');
-const schema = require('./ticketSchema');
-const HTTPError = require('../errors/HTTPError');
+const schema = require('./schema');
+const HTTPError = require('../errors/http_error');
 
 const ticketModel = (async () => {
   const createBug = async (data) => {

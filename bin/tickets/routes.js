@@ -1,17 +1,17 @@
 const express = require('express');
-const bugControl = require('./ticketController');
+const controller = require('./controller');
 
 const router = express.Router();
 
 // GET a list of all bugs
 router.get('/bugs', () => {
-  bugControl.list();
+  controller.list();
 });
 
 // GET a specific bug
 router.get('/bugs/:id', (req) => {
   const { id } = req.params;
-  bugControl.detail(id);
+  controller.detail(id);
 });
 
 // CREATE a new bug
@@ -24,13 +24,13 @@ router.post('/bugs/:priority/:severity/:type/:reporterId/:productId', (req) => {
     reporterId: req.params.reporterId,
     productId: req.params.productId,
   };
-  bugControl.create(data);
+  controller.create(data);
 });
 
 // DELETE a bug
 router.delete('/bugs/:id', (req) => {
   const { id } = req.params;
-  bugControl.delete(id);
+  controller.delete(id);
 });
 
 // UPDATE a bug
@@ -44,7 +44,7 @@ router.put('/bugs/:id', (req) => {
     productId: req.query.productId,
   };
 
-  bugControl.update(data);
+  controller.update(data);
 });
 
 module.exports = router;
