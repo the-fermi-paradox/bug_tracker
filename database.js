@@ -20,9 +20,10 @@ class Database {
     return connection;
   }
 
-  static close(connection) {
+  close(connection) {
     connection.release();
     logger.info(`MariaDB connection closed. ID: ${connection.threadId}`);
+    logger.info(this.pool);
   }
 }
 
