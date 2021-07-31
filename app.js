@@ -1,9 +1,8 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs/promises');
 const handleError = require('./src/errors/handle_error');
 const logger = require('./src/helpers/logger');
-const db = require('./database');
+const tickets = require('./src/tickets/routes');
 
 const app = express();
 
@@ -18,31 +17,13 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-// Here we handle our middleware
+// Log all incoming requests
 app.use((req, res, next) => {
   logger.http(req);
   next();
 });
 
-// We initialize all of our tables.
-app.use(async (req, res, next) => {
-  try {
-    // First read from the file holding our SQL queries
-    /* eslint-disable-next-line security/detect-non-literal-fs-filename */
-    const query = await fs.readFile(
-      path.join(__dirname, 'schema.mysql'),
-      'utf-8',
-    );
-    // Establish a connection
-    const connection = db.connect();
-    // Execute our query
-    await connection.query(query);
-    db.close(connection);
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
+app.use('/tickets', tickets);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -3,19 +3,19 @@ const controller = require('./controller');
 
 const router = express.Router();
 
-// GET a list of all bugs
-router.get('/bugs', () => {
+// GET a list of all tickets
+router.get('/', () => {
   controller.list();
 });
 
-// GET a specific bug
-router.get('/bugs/:id', (req) => {
+// GET a specific ticket
+router.get('/:id', (req) => {
   const { id } = req.params;
   controller.detail(id);
 });
 
-// CREATE a new bug
-router.post('/bugs/:priority/:severity/:type/:reporterId/:productId', (req) => {
+// CREATE a new ticket
+router.post('/:priority/:severity/:type/:reporterId/:productId', (req) => {
   const data = {
     title: req.params.title,
     priority: req.params.priority,
@@ -27,14 +27,14 @@ router.post('/bugs/:priority/:severity/:type/:reporterId/:productId', (req) => {
   controller.create(data);
 });
 
-// DELETE a bug
-router.delete('/bugs/:id', (req) => {
+// DELETE a ticket
+router.delete('/:id', (req) => {
   const { id } = req.params;
   controller.delete(id);
 });
 
-// UPDATE a bug
-router.put('/bugs/:id', (req) => {
+// UPDATE a ticket
+router.put('/:id', (req) => {
   const data = {
     id: req.params.id,
     priority: req.query.priority,
