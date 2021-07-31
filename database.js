@@ -25,4 +25,5 @@ class Database {
     logger.info(`MariaDB connection closed. ID: ${connection.threadId}`);
   }
 }
-module.exports = Database;
+
+module.exports = new Database();

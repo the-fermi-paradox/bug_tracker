@@ -1,12 +1,5 @@
-// bug_id int(11) not null primary key auto increment
-// bug_priority int(11) not null
-// bug_severity int(11) not null
-// bug_type varchar(60) not null
-// bug_reporter_id int(11) not null foreign key -> users
-// bug_assignee_id int(11) not null foreign key -> users
-// bug_product_id int(11) not null foreign key -> products
 const express = require('express');
-const bugControl = require('./bugController');
+const bugControl = require('./ticketController');
 
 const router = express.Router();
 
@@ -24,6 +17,7 @@ router.get('/bugs/:id', (req) => {
 // CREATE a new bug
 router.post('/bugs/:priority/:severity/:type/:reporterId/:productId', (req) => {
   const data = {
+    title: req.params.title,
     priority: req.params.priority,
     severity: req.params.severity,
     type: req.params.type,
@@ -47,7 +41,6 @@ router.put('/bugs/:id', (req) => {
     severity: req.query.severity,
     type: req.query.type,
     reporterId: req.query.reporterId,
-    assigneeId: req.query.assigneeId,
     productId: req.query.productId,
   };
 

@@ -1,9 +1,9 @@
-const model = require('./bugModel');
+const model = require('./ticketModel');
 // Our controllers should:
 // 1. send the relevant request to our model
 // 2. bundle the response and return it, sending to router
 
-const BugController = async () => {
+const ticketController = async () => {
   const list = async () => {
     const res = await model.listBugs();
     return res;
@@ -39,4 +39,4 @@ const BugController = async () => {
   };
 };
 
-module.exports = BugController;
+module.exports = ticketController;
