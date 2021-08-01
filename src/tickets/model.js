@@ -2,19 +2,16 @@ const db = require('../../database');
 const schema = require('./schema');
 const HTTPError = require('../errors/http_error');
 
-const ticketModel = (async () => {
+const ticketModel = (() => {
   const createBug = async (data) => {
-    const now = Date.now();
     schema.validate(data);
     return await db.query(
-      'INSERT INTO bugs(bug_priority, bug_severity, bug_type, bug_reporter_id, bug_assignee_id, bug_product_id, created) VALUES(?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO bugs(bug_priority, bug_severity, bug_type, bug_reporter_id, bug_product_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
       data.priority,
       data.severity,
       data.type,
       data.reporterId,
-      data.assigneeId,
       data.productId,
-      now,
     );
   };
 

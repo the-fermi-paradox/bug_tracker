@@ -3,31 +3,31 @@ const model = require('./model');
 // 1. send the relevant request to our model
 // 2. bundle the response and return it, sending to router
 
-const ticketController = (() => {
-  const list = async () => {
-    const res = await model.listBugs();
-    return res;
+const controller = (() => {
+  const list = async (req, res, next) => {
+    const data = await model.listBugs().catch(next);
+    next(data);
   };
 
-  const detail = async (data) => {
-    const res = await model.getBug(data);
-    return res;
+  const detail = async (req, res, next) => {
+    const data = await model.getBug().catch(next);
+    next(data);
   };
 
-  const create = async (data) => {
-    const res = await model.createBug(data);
-    return res;
+  const create = async (req, res, next) => {
+    const data = await model.createBug().catch(next);
+    next(data);
   };
 
-  const remove = async (data) => {
-    const res = await model.deleteBug(data);
-    return res;
+  const remove = async (req, res, next) => {
+    const data = await model.deleteBug().catch(next);
+    next(data);
   };
 
-  const update = async (data) => {
-    const promises = Object.entries(data).map(([key, value]) => model.updateBug(key, value));
-    const res = await Promise.all(promises);
-    return res;
+  const update = async (req, res, next) => {
+    const promises = Object.entries().map(([key, value]) => model.updateBug(key, value));
+    const data = await Promise.all(promises).catch(next);
+    next(data);
   };
 
   return {
@@ -39,4 +39,4 @@ const ticketController = (() => {
   };
 })();
 
-module.exports = ticketController;
+module.exports = controller;

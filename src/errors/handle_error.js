@@ -1,4 +1,4 @@
-const handleError = (err, res) => {
+const handleError = (err, res = null) => {
   const { statusCode, message } = err;
   res.status(statusCode).json({
     status: 'error',
