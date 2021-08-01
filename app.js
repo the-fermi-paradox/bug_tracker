@@ -12,17 +12,26 @@ app.use((req, res, next) => {
   next();
 });
 
+// Parse any JSON in the request
+app.use(express.json());
+
+// Hook in our routes
 app.use('/tickets', tickets);
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// We send any errors to our handler if it's operational;
-// otherwise we let the default error handler take care of them
-app.use((err, req, res, next) => {
-  logger.error(err);
-  err.isOperational ? handleError(err, res) : next(err);
+// Let's handle our errors
+app.use((err, req, res) => {
+  handleError(err, res);
+});
+
+process.on('uncaughtException', (err) => {
+  handleError(err);
+});
+
+process.on('unhandledRejection', (err) => {
+  handleError(err);
 });
 
 module.exports = app;
