@@ -4,23 +4,26 @@ const model = (() => {
   const create = async (data) => {
     const connection = await db.connect();
     const query = await connection.query(
-      'INSERT INTO bugs(bug_priority, bug_severity, bug_type, bug_reporter_id, bug_product_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO tickets(title, description, flavor, priority, severity, reporter_id, product_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
+      data.title,
+      data.description,
+      data.flavor,
       data.priority,
       data.severity,
-      data.type,
-      data.reporterId,
-      data.productId,
+      data.reporter_id,
+      data.product_id,
     );
     db.close(connection);
 
     return await query;
   };
-  const update = async (key, value) => {
+  const update = async (id, key, value) => {
     const connection = await db.connect();
     const query = await connection.query(
-      'UPDATE bugs SET (?) = (?);',
+      'UPDATE tickets SET (?) = (?) WHERE id=(?);',
       key,
       value,
+      id,
     );
     db.close(connection);
 
@@ -28,7 +31,7 @@ const model = (() => {
   };
   const get = async (id) => {
     const connection = await db.connect();
-    const query = await connection.query('SELECT * FROM bugs WHERE id=(?)', [
+    const query = await connection.query('SELECT * FROM tickets WHERE id=(?)', [
       id,
     ]);
     db.close(connection);
@@ -37,14 +40,14 @@ const model = (() => {
   };
   const list = async () => {
     const connection = await db.connect();
-    const query = await connection.query('SELECT * FROM bugs');
+    const query = await connection.query('SELECT * FROM tickets');
     db.close(connection);
 
     return await query;
   };
   const remove = async (id) => {
     const connection = await db.connect();
-    const query = await connection.query('DELETE * FROM bugs WHERE id=(?)', [
+    const query = await connection.query('DELETE * FROM tickets WHERE id=(?)', [
       id,
     ]);
     db.close(connection);

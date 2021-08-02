@@ -1,8 +1,8 @@
 const DBError = require('../errors/db_error');
 const model = require('./model');
 
-// Our service will handle any specific business logic; for now it just calls
-// the database
+// Our service will handle any specific business logic;
+// for now it just calls the database
 
 const service = (() => {
   const create = async (data) => await model.create(data).catch((err) => {
