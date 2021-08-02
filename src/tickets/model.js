@@ -5,13 +5,15 @@ const model = (() => {
     const connection = await db.connect();
     const query = await connection.query(
       'INSERT INTO tickets(title, description, flavor, priority, severity, reporter_id, product_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
-      data.title,
-      data.description,
-      data.flavor,
-      data.priority,
-      data.severity,
-      data.reporter_id,
-      data.product_id,
+      [
+        data.title,
+        data.description,
+        data.flavor,
+        data.priority,
+        data.severity,
+        data.reporter_id,
+        data.product_id,
+      ],
     );
     db.close(connection);
 
@@ -21,9 +23,7 @@ const model = (() => {
     const connection = await db.connect();
     const query = await connection.query(
       'UPDATE tickets SET (?) = (?) WHERE id=(?);',
-      key,
-      value,
-      id,
+      [key, value, id],
     );
     db.close(connection);
 
