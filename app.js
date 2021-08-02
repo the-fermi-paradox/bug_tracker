@@ -3,6 +3,7 @@ const path = require('path');
 const handleError = require('./src/errors/handle_error');
 const logger = require('./src/helpers/logger');
 const tickets = require('./src/tickets/routes');
+const users = require('./src/users/routes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // Hook in our routes
 app.use('/tickets', tickets);
+app.use('/users', users);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
