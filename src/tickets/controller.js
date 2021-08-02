@@ -1,33 +1,69 @@
-const model = require('./model');
-// Our controllers should:
-// 1. send the relevant request to our model
-// 2. bundle the response and return it, sending to router
+const service = require('./service');
+const schema = require('./schema');
+const processJoiError = require('../errors/process_joi_error');
+const HTTPError = require('../errors/http_error');
 
 const controller = (() => {
+  const checkID = (req, res, next) => {
+    const { id } = req.params;
+    if (!id) next(new HTTPError(400, 'No id specified'));
+    else next();
+  };
   const list = async (req, res, next) => {
-    const data = await model.listBugs().catch(next);
-    next(data);
+    const data = await service.list().catch(next);
+    res.json(data);
   };
 
   const detail = async (req, res, next) => {
-    const data = await model.getBug().catch(next);
-    next(data);
+    const { id } = req.params;
+    const data = await service.get(id).catch(next);
+    res.json(data);
   };
 
   const create = async (req, res, next) => {
-    const data = await model.createBug().catch(next);
-    next(data);
+    const { err } = schema.create.validate(req.body);
+    // If we failed to validate the data
+    if (err != null) {
+      const error = processJoiError(err);
+      // Send it to our error middleware
+      next(error);
+    }
+    // If validated, extract out the relevant data
+    const input = {
+      title: req.body.title,
+      description: req.body.description,
+      flavor: req.body.flavor,
+      priority: req.body.priority,
+      severity: req.body.priority,
+      reporter_id: req.body.reporter_id,
+      product_id: req.body.product_id,
+    };
+    // Submit it to our service and await the response
+    const data = await service.create(input).catch(next);
+    // Send the JSON to the client
+    res.json(data);
   };
 
   const remove = async (req, res, next) => {
-    const data = await model.deleteBug().catch(next);
-    next(data);
+    const { id } = req.params;
+    if (!id) next(new HTTPError(400, 'No id specified'));
+    const data = await service.remove(id).catch(next);
+    res.json(data);
   };
 
   const update = async (req, res, next) => {
-    const promises = Object.entries().map(([key, value]) => model.updateBug(key, value));
-    const data = await Promise.all(promises).catch(next);
-    next(data);
+    const { id } = req.params;
+    if (!id) next(new HTTPError(400, 'No id specified'));
+    const { err } = schema.update.validate(req.body);
+    // If we failed to validate the data
+    if (err != null) {
+      const error = processJoiError(err);
+      // Send it to our error middleware
+      next(error);
+    }
+
+    const data = await service.update(id).catch(next);
+    res.json(data);
   };
 
   return {

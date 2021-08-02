@@ -1,10 +1,9 @@
 const db = require('../../database');
-const schema = require('./schema');
 
-const ticketModel = (() => {
-  const createBug = async (data) => {
-    schema.validate(data);
-    return await db.query(
+const model = (() => {
+  const create = async (data) => {
+    const connection = await db.connect();
+    const query = await connection.query(
       'INSERT INTO bugs(bug_priority, bug_severity, bug_type, bug_reporter_id, bug_product_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
       data.priority,
       data.severity,
@@ -12,23 +11,54 @@ const ticketModel = (() => {
       data.reporterId,
       data.productId,
     );
+    db.close(connection);
+
+    return await query;
+  };
+  const update = async (key, value) => {
+    const connection = await db.connect();
+    const query = await connection.query(
+      'UPDATE bugs SET (?) = (?);',
+      key,
+      value,
+    );
+    db.close(connection);
+
+    return await query;
+  };
+  const get = async (id) => {
+    const connection = await db.connect();
+    const query = await connection.query('SELECT * FROM bugs WHERE id=(?)', [
+      id,
+    ]);
+    db.close(connection);
+
+    return await query;
+  };
+  const list = async () => {
+    const connection = await db.connect();
+    const query = await connection.query('SELECT * FROM bugs');
+    db.close(connection);
+
+    return await query;
+  };
+  const remove = async (id) => {
+    const connection = await db.connect();
+    const query = await connection.query('DELETE * FROM bugs WHERE id=(?)', [
+      id,
+    ]);
+    db.close(connection);
+
+    return await query;
   };
 
-  const updateBug = async (key, value) => await db.query('UPDATE bugs SET (?) = (?);', key, value);
-
-  const getBug = async (id) => await db.query('SELECT * FROM bugs WHERE id=(?)', [id]);
-
-  const listBugs = async () => await db.query('SELECT * FROM bugs');
-
-  const deleteBug = async (id) => await db.query('DELETE * FROM bugs WHERE id=(?)', [id]);
-
   return {
-    createBug,
-    updateBug,
-    getBug,
-    listBugs,
-    deleteBug,
+    create,
+    list,
+    get,
+    update,
+    remove,
   };
 })();
 
-module.exports = ticketModel;
+module.exports = model;
