@@ -4,17 +4,12 @@ const processJoiError = require('../errors/process_joi_error');
 const HTTPError = require('../errors/http_error');
 
 const controller = (() => {
-  const checkID = (req, res, next) => {
-    const { id } = req.params;
-    if (!id) next(new HTTPError(400, 'No id specified'));
-    else next();
-  };
   const list = async (req, res, next) => {
     const data = await service.list().catch(next);
     res.json(data);
   };
 
-  const detail = async (req, res, next) => {
+  const get = async (req, res, next) => {
     const { id } = req.params;
     const data = await service.get(id).catch(next);
     res.json(data);
@@ -68,7 +63,7 @@ const controller = (() => {
 
   return {
     list,
-    detail,
+    get,
     create,
     remove,
     update,

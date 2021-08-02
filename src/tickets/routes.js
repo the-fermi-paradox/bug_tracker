@@ -13,7 +13,7 @@ router.get('/:id', controller.get);
 router.post('/', controller.create);
 
 // DELETE a ticket
-router.delete('/:id', controller.delete);
+router.delete('/:id', controller.remove);
 
 // UPDATE a ticket
 router.put('/:id', controller.update);
