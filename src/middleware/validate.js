@@ -1,13 +1,11 @@
 const processJoiError = require('../errors/process_joi_error');
 
 const validate = (schema) => (req, res, next) => {
-  const { error } = schema.validate(req.body);
+  console.log(req.body);
+  const { value, error } = schema.validate(req.body);
   console.log(error);
-  if (error != null) {
-    next();
-  } else {
-    next(processJoiError(error));
-  }
+  console.log(value);
+  error != null ? next(processJoiError(error)) : next();
 };
 
 module.exports = validate;
