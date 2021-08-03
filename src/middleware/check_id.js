@@ -1,5 +1,6 @@
 const joi = require('joi');
 const HTTPError = require('../errors/http_error');
+const processJoiError = require('../errors/process_joi_error');
 
 // Check if a valid id was provided; if not, go to error middleware
 const checkId = (req, res, next) => {
@@ -8,9 +9,8 @@ const checkId = (req, res, next) => {
   if (!id) return next(new HTTPError(400, 'No id specified'));
 
   // Is the id valid? ids are positive integers
-  const { err } = joi.number().integer().sign('positive').validate(id);
-  console.log(joi.number().integer().sign('positive').validate(id));
-  if (err != null) return next(new HTTPError(400, 'invalid id - does item exist?'));
+  const { error } = joi.number().integer().sign('positive').validate(id);
+  if (error != null) return next(processJoiError(error));
 
   // All checks passed; let's go
   next();
