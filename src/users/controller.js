@@ -22,6 +22,7 @@ const controller = (() => {
     if (error != null) {
       // Send it to our error middleware
       next(processJoiError(error));
+      return;
     }
     // If validated, extract out the relevant data
     console.log("You shouldn't see me!");

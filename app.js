@@ -35,6 +35,7 @@ process.on('unhandledRejection', (err) => {
 
 app.use((err, req, res, next) => {
   handleError(err, res);
+  res.end();
 });
 
 module.exports = app;
