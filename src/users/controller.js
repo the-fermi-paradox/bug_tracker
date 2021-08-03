@@ -1,7 +1,4 @@
 const service = require('./service');
-const schema = require('./schema');
-const processJoiError = require('../errors/process_joi_error');
-const HTTPError = require('../errors/http_error');
 const DBError = require('../errors/db_error');
 
 const controller = (() => {
@@ -17,12 +14,6 @@ const controller = (() => {
   };
 
   const create = async (req, res, next) => {
-    const { error } = schema.create.validate(req.body);
-    // If we failed to validate the data
-    if (error != null) {
-      // Send it to our error middleware
-      return next(processJoiError(error));
-    }
     // If validated, extract out the relevant data
     const input = {
       user_name: req.body.user_name,
@@ -36,7 +27,6 @@ const controller = (() => {
 
   const remove = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) return next(new HTTPError(400, 'No id specified'));
     const data = await service
       .remove(id)
       .catch((err) => next(new DBError(err)));
@@ -45,14 +35,6 @@ const controller = (() => {
 
   const update = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) return next(new HTTPError(400, 'No id specified'));
-    const { error } = schema.update.validate(req.body);
-    // If we failed to validate the data
-    if (error != null) {
-      // Send it to our error middleware
-      return next(processJoiError(error));
-    }
-
     const input = {
       user_name: req.body.user_name,
       user_role: req.body.user_role,

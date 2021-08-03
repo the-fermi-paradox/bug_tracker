@@ -25,6 +25,11 @@ class Database {
     logger.info(`MariaDB connection closed. ID: ${connection.threadId}`);
     logger.info(this.pool);
   }
+
+  async ask(query, params) {
+    logger.info(query);
+    const [reject, resolve] = await this.pool.query(query, params);
+  }
 }
 
 module.exports = new Database();

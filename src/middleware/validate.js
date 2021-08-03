@@ -1,12 +1,11 @@
-const joi = require('joi');
-const handleError = require('../errors/handle_error');
+const processJoiError = require('../errors/process_joi_error');
 
 const validate = (schema) => (req, res, next) => {
-  const { error } = joi.validate(req.body, schema);
+  const { error } = schema.validate(req.body);
   if (error != null) {
     next();
   } else {
-    handleError(error);
+    next(processJoiError(error));
   }
 };
 
