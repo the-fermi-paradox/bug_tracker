@@ -17,12 +17,11 @@ const controller = (() => {
   };
 
   const create = async (req, res, next) => {
-    const { err } = schema.create.validate(req.body);
+    const { error } = schema.create.validate(req.body);
     // If we failed to validate the data
-    if (err != null) {
-      const error = processJoiError(err);
+    if (error != null) {
       // Send it to our error middleware
-      next(error);
+      next(processJoiError(error));
     }
     // If validated, extract out the relevant data
     const input = {
@@ -47,12 +46,11 @@ const controller = (() => {
   const update = async (req, res, next) => {
     const { id } = req.params;
     if (!id) next(new HTTPError(400, 'No id specified'));
-    const { err } = schema.update.validate(req.body);
+    const { error } = schema.update.validate(req.body);
     // If we failed to validate the data
-    if (err != null) {
-      const error = processJoiError(err);
+    if (error != null) {
       // Send it to our error middleware
-      next(error);
+      next(processJoiError(error));
     }
 
     const input = {
