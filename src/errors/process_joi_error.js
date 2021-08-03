@@ -5,7 +5,7 @@ const processJoiError = (err) => {
   // Create our message
   const message = details.map((i) => i.message).join(',');
   // Create a response
-  return new HTTPError(message, 400);
+  return new HTTPError(400, message);
 };
 
 module.exports = processJoiError;
