@@ -4,7 +4,6 @@
 class DBError extends Error {
   constructor(error) {
     super();
-    this.statusCode = error.code;
     this.sqlState = error.sqlState;
     this.message = error.message;
     this.isOperational = !error.fatal;
