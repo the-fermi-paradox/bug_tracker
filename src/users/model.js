@@ -13,9 +13,11 @@ const model = (() => {
   };
   const update = async (id, key, value) => {
     const connection = await db.connect();
+    // Key is checked by validation earlier; it is up to the server, so we
+    // should be able to use it as a template here without any escaping
     const query = await connection.query(
-      'UPDATE users SET (?) = (?) WHERE id=(?);',
-      [key, value, id],
+      `UPDATE users SET ${key}=(?) WHERE id=(?);`,
+      [value, id],
     );
     db.close(connection);
 
