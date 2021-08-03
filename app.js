@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Let's handle our errors
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   handleError(err, res);
 });
 

@@ -4,9 +4,9 @@ const crashOrRespond = (err, res) => {
   const { isOperational, statusCode, message } = err;
   // If we have a response, send one now
   if (res) {
-    res.status(statusCode).json({
+    res.status(statusCode ?? 500).json({
       status: 'error',
-      statusCode,
+      statusCode: statusCode ?? 500,
       message,
     });
   }

@@ -55,7 +55,14 @@ const controller = (() => {
       next(error);
     }
 
-    const data = await service.update(id).catch((e) => next(new DBError(e)));
+    const input = {
+      user_name: req.body.user_name,
+      user_role: req.body.user_role,
+    };
+
+    const data = await service
+      .update(id, input)
+      .catch((e) => next(new DBError(e)));
     res.json(data);
   };
 
