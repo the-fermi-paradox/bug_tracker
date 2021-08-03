@@ -21,11 +21,9 @@ const controller = (() => {
     // If we failed to validate the data
     if (error != null) {
       // Send it to our error middleware
-      next(processJoiError(error));
-      return;
+      return next(processJoiError(error));
     }
     // If validated, extract out the relevant data
-    console.log("You shouldn't see me!");
     const input = {
       user_name: req.body.user_name,
       user_role: req.body.user_role,
@@ -38,7 +36,7 @@ const controller = (() => {
 
   const remove = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) next(new HTTPError(400, 'No id specified'));
+    if (!id) return next(new HTTPError(400, 'No id specified'));
     const data = await service
       .remove(id)
       .catch((err) => next(new DBError(err)));
@@ -47,12 +45,12 @@ const controller = (() => {
 
   const update = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) next(new HTTPError(400, 'No id specified'));
+    if (!id) return next(new HTTPError(400, 'No id specified'));
     const { error } = schema.update.validate(req.body);
     // If we failed to validate the data
     if (error != null) {
       // Send it to our error middleware
-      next(processJoiError(error));
+      return next(processJoiError(error));
     }
 
     const input = {

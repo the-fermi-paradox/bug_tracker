@@ -20,7 +20,7 @@ const controller = (() => {
     // If we failed to validate the data
     if (error != null) {
       // Send it to our error middleware
-      next(processJoiError(error));
+      return next(processJoiError(error));
     }
     // If validated, extract out the relevant data
     const input = {
@@ -41,19 +41,19 @@ const controller = (() => {
 
   const remove = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) next(new HTTPError(400, 'No id specified'));
+    if (!id) return next(new HTTPError(400, 'No id specified'));
     const data = await service.remove(id).catch(next);
     res.json(data);
   };
 
   const update = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) next(new HTTPError(400, 'No id specified'));
+    if (!id) return next(new HTTPError(400, 'No id specified'));
     const { error } = schema.update.validate(req.body);
     // If we failed to validate the data
     if (error != null) {
       // Send it to our error middleware
-      next(processJoiError(error));
+      return next(processJoiError(error));
     }
 
     const data = await service.update(id).catch(next);
