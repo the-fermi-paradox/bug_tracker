@@ -9,7 +9,7 @@ const checkId = (req, res, next) => {
 
   // Is the id valid? ids are positive integers
   const { err } = joi.number().integer().sign('positive').validate(id);
-  console.log(joi.number().integer.sign('positive').validate(id);
+  console.log(joi.number().integer.sign('positive').validate(id));
   if (err != null) return next(new HTTPError(400, 'invalid id - does item exist?'));
 
   // All checks passed; let's go
