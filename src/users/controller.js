@@ -24,6 +24,7 @@ const controller = (() => {
       next(processJoiError(error));
     }
     // If validated, extract out the relevant data
+    console.log("You shouldn't see me!");
     const input = {
       user_name: req.body.user_name,
       user_role: req.body.user_role,

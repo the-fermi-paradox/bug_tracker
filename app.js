@@ -24,9 +24,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Let's handle our errors
-app.use((err, req, res, next) => {
-  handleError(err, res);
-});
 
 process.on('uncaughtException', (err) => {
   handleError(err);
@@ -34,6 +31,10 @@ process.on('uncaughtException', (err) => {
 
 process.on('unhandledRejection', (err) => {
   handleError(err);
+});
+
+app.use((err, req, res, next) => {
+  handleError(err, res);
 });
 
 module.exports = app;
