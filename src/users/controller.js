@@ -2,16 +2,17 @@ const service = require('./service');
 const schema = require('./schema');
 const processJoiError = require('../errors/process_joi_error');
 const HTTPError = require('../errors/http_error');
+const DBError = require('../errors/db_error');
 
 const controller = (() => {
   const list = async (req, res, next) => {
-    const data = await service.list().catch(next);
+    const data = await service.list().catch((err) => next(new DBError(err)));
     res.json(data);
   };
 
   const get = async (req, res, next) => {
     const { id } = req.params;
-    const data = await service.get(id).catch(next);
+    const data = await service.get(id).catch((err) => next(new DBError(err)));
     res.json(data);
   };
 
@@ -29,7 +30,7 @@ const controller = (() => {
       user_role: req.body.user_role,
     };
     // Submit it to our service and await the response
-    const data = await service.create(input).catch(next);
+    const data = await service.create(input).catch((e) => next(new DBError(e)));
     // Send the JSON to the client
     res.json(data);
   };
@@ -37,7 +38,9 @@ const controller = (() => {
   const remove = async (req, res, next) => {
     const { id } = req.params;
     if (!id) next(new HTTPError(400, 'No id specified'));
-    const data = await service.remove(id).catch(next);
+    const data = await service
+      .remove(id)
+      .catch((err) => next(new DBError(err)));
     res.json(data);
   };
 
@@ -52,7 +55,7 @@ const controller = (() => {
       next(error);
     }
 
-    const data = await service.update(id).catch(next);
+    const data = await service.update(id).catch((e) => next(new DBError(e)));
     res.json(data);
   };
 
