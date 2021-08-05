@@ -14,9 +14,11 @@ class Database {
   async ask(query, params) {
     // Let's build a string so we can log it to stdout
     let logString = query;
-    for (let i = 0; i < params.length; i += 1) {
-      const val = params[i];
-      logString = logString.replace('?', val);
+    if (params) {
+      for (let i = 0; i < params.length; i += 1) {
+        const val = params[i];
+        logString = logString.replace('?', val);
+      }
     }
     logger.db(logString);
     // We don't actually use this string though - we use the query with proper
