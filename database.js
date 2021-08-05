@@ -18,11 +18,11 @@ class Database {
       const val = params[i];
       logString = logString.replace('?', val);
     }
-    logger.info(logString);
+    logger.db(logString);
     // We don't actually use this string though - we use the query with proper
     // parameters to prevent SQL injection
     const data = await this.pool.query(query, params);
-    logger.info(data);
+    logger.db(data);
     return data;
   }
 }

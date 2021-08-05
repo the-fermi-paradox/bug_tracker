@@ -3,7 +3,7 @@ const pino = require('pino');
 const logger = pino({
   customLevels: {
     http: 10,
-    debug: 20,
+    db: 20,
     info: 30,
     warn: 40,
     error: 50,
