@@ -12,13 +12,14 @@ const crashOrRespond = (err, res) => {
   }
   // Exit the process with a failed error code if this is a programmer error
   if (!isOperational) {
+    logger.fatal(err);
     process.exit(1);
+  } else {
+    logger.error(err);
   }
 };
 
 const handleError = (err, res) => {
-  // Log our error
-  logger.error(err);
   crashOrRespond(err, res);
 };
 
