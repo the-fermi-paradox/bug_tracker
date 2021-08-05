@@ -12,7 +12,12 @@ class Database {
   }
 
   async ask(query, params) {
-    logger.info(query);
+    let logString = '';
+    for (let i = 0; i < params.length; i += 1) {
+      const val = params[i];
+      logString = query.replace('?', val);
+    }
+    logger.info(logString);
     const data = await this.pool.query(query, params);
     logger.info(data);
     return data;
