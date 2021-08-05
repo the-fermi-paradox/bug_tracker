@@ -1,5 +1,4 @@
 const mariadb = require('mariadb');
-const HTTPError = require('./src/errors/http_error');
 const logger = require('./src/helpers/logger');
 
 class Database {
@@ -12,23 +11,11 @@ class Database {
     });
   }
 
-  async connect() {
-    const connection = await this.pool.getConnection().catch((err) => {
-      throw new HTTPError(500, err);
-    });
-    logger.info(`MariaDB connection established. ID: ${connection.threadId}`);
-    return connection;
-  }
-
-  close(connection) {
-    connection.release();
-    logger.info(`MariaDB connection closed. ID: ${connection.threadId}`);
-    logger.info(this.pool);
-  }
-
   async ask(query, params) {
     logger.info(query);
-    const [reject, resolve] = await this.pool.query(query, params);
+    const data = await this.pool.query(query, params);
+    logger.info(data);
+    return data;
   }
 }
 

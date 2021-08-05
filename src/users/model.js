@@ -1,53 +1,16 @@
 const db = require('../../database');
 
 const model = (() => {
-  const create = async (data) => {
-    const connection = await db.connect();
-    const query = await connection.query(
-      'INSERT INTO users(user_name, user_role) VALUES(?, ?);',
-      [data.user_name, data.user_role],
-    );
-    db.close(connection);
-
-    return await query;
-  };
-  const update = async (id, key, value) => {
-    const connection = await db.connect();
-    // Key is checked by validation earlier; it is up to the server, so we
-    // should be able to use it as a template here without any escaping
-    const query = await connection.query(
-      `UPDATE users SET ${key}=(?) WHERE id=(?);`,
-      [value, id],
-    );
-    db.close(connection);
-
-    return await query;
-  };
-  const get = async (id) => {
-    const connection = await db.connect();
-    const query = await connection.query('SELECT * FROM users WHERE id=(?)', [
-      id,
-    ]);
-    db.close(connection);
-
-    return await query;
-  };
-  const list = async () => {
-    const connection = await db.connect();
-    const query = await connection.query('SELECT * FROM users');
-    db.close(connection);
-
-    return await query;
-  };
-  const remove = async (id) => {
-    const connection = await db.connect();
-    const query = await connection.query('DELETE * FROM users WHERE id=(?)', [
-      id,
-    ]);
-    db.close(connection);
-
-    return await query;
-  };
+  const create = async (data) => await db.ask('INSERT INTO users(user_name, user_role) VALUES(?, ?);', [
+    data.user_name,
+    data.user_role,
+  ]);
+  // There's no risk of SQL injection here - key is validated beforehand in
+  // middleware
+  const update = async (id, key, value) => await db.ask(`UPDATE users SET ${key}=(?) WHERE id=(?);`, [value, id]);
+  const get = async (id) => await db.ask('SELECT * FROM users WHERE id=(?)', [id]);
+  const list = async () => await db.ask('SELECT * FROM users');
+  const remove = async (id) => await db.ask('DELETE * FROM users WHERE id=(?)', [id]);
 
   return {
     create,
