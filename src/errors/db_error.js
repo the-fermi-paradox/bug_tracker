@@ -6,7 +6,9 @@ class DBError extends Error {
     super();
     this.sqlState = error.sqlState;
     this.message = error.message;
-    this.isOperational = !error.fatal;
+    // The error is operational if error.fatal exists
+    // AND it has a value of false
+    this.isOperational = error.fatal != null ? !error.fatal : false;
   }
 }
 
