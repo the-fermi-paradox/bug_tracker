@@ -2,8 +2,10 @@ const express = require('express');
 const path = require('path');
 const handleError = require('./src/errors/handle_error');
 const logger = require('./src/helpers/logger');
+// import routes
 const tickets = require('./src/tickets/routes');
 const users = require('./src/users/routes');
+const products = require('./src/products/routes');
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(express.json());
 // Hook in our routes
 app.use('/tickets', tickets);
 app.use('/users', users);
+app.use('/products', products);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));

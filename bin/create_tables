@@ -12,12 +12,9 @@ const logger = require('../src/helpers/logger');
     const queries = await fs.readFile('../schema.mysql', 'utf-8');
     // Parse the queries into an array by our delimeter
     const arr = queries.split('#');
-    // Establish a connection
-    const connection = await db.connect();
     // Execute our queries
-    await Promise.all(arr.map((query) => connection.query(query)));
-    // Release our connection back to the pool
-    db.close(connection);
+    await Promise.all(arr.map((query) => db.ask(query)));
+    logger.info('TABLES CREATED');
   } catch (err) {
     logger.error(err);
   }
