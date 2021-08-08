@@ -12,6 +12,7 @@ const app = express();
 // Log all incoming requests
 app.use((req, res, next) => {
   logger.http(req);
+  logger.http(req.body);
   next();
 });
 
