@@ -1,27 +1,19 @@
 const service = require('./service');
-const schema = require('./schema');
-const processJoiError = require('../errors/process_joi_error');
-const HTTPError = require('../errors/http_error');
+const DBError = require('../errors/db_error');
 
 const controller = (() => {
   const list = async (req, res, next) => {
-    const data = await service.list().catch(next);
+    const data = await service.list().catch((err) => next(new DBError(err)));
     res.json(data);
   };
 
   const get = async (req, res, next) => {
     const { id } = req.params;
-    const data = await service.get(id).catch(next);
+    const data = await service.get(id).catch((err) => next(new DBError(err)));
     res.json(data);
   };
 
   const create = async (req, res, next) => {
-    const { error } = schema.create.validate(req.body);
-    // If we failed to validate the data
-    if (error != null) {
-      // Send it to our error middleware
-      return next(processJoiError(error));
-    }
     // If validated, extract out the relevant data
     const input = {
       title: req.body.title,
@@ -34,29 +26,35 @@ const controller = (() => {
     };
 
     // Submit it to our service and await the response
-    const data = await service.create(input).catch(next);
+    const data = await service
+      .create(input)
+      .catch((err) => next(new DBError(err)));
     // Send the JSON to the client
     res.json(data);
   };
 
   const remove = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) return next(new HTTPError(400, 'No id specified'));
-    const data = await service.remove(id).catch(next);
+    const data = await service
+      .remove(id)
+      .catch((err) => next(new DBError(err)));
     res.json(data);
   };
 
   const update = async (req, res, next) => {
     const { id } = req.params;
-    if (!id) return next(new HTTPError(400, 'No id specified'));
-    const { error } = schema.update.validate(req.body);
-    // If we failed to validate the data
-    if (error != null) {
-      // Send it to our error middleware
-      return next(processJoiError(error));
-    }
-
-    const data = await service.update(id).catch(next);
+    const input = {
+      title: req.body.title,
+      description: req.body.description,
+      flavor: req.body.flavor,
+      priority: req.body.priority,
+      severity: req.body.priority,
+      reporter_id: req.body.reporter_id,
+      product_id: req.body.product_id,
+    };
+    const data = await service
+      .update(id, input)
+      .catch((err) => next(new DBError(err)));
     res.json(data);
   };
 
