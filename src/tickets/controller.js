@@ -30,7 +30,7 @@ const controller = (() => {
       .create(input)
       .catch((err) => next(new DBError(err)));
     // Send the JSON to the client
-    res.json(data);
+    res.status(201).json(data);
   };
 
   const remove = async (req, res, next) => {

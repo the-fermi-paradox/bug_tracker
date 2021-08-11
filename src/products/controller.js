@@ -22,7 +22,7 @@ const controller = (() => {
     // Submit it to our service and await the response
     const data = await service.create(input).catch((e) => next(new DBError(e)));
     // Send the JSON to the client
-    res.json(data);
+    res.status(201).json(data);
   };
 
   const remove = async (req, res, next) => {
