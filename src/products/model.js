@@ -15,7 +15,7 @@ const model = (() => {
     SUM(state = 'CLOSED') closed_count
     FROM tickets AS t1
     INNER JOIN products AS t2
-    ON t1.product_id = t1.id;`;
+    ON t1.product_id = t2.id;`;
     return await db.ask(query);
   };
   const remove = async (id) => await db.ask('DELETE * FROM products WHERE id=(?)', [id]);
