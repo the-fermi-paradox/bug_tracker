@@ -41,9 +41,13 @@ const schema = (() => {
       flavor: joi.string().alphanum().min(3).max(60),
       reporter_id: joi.number().integer(),
       product_id: joi.number().integer(),
+      state: joi
+        .string()
+        .case('upper')
+        .pattern(/(OPEN|CLOSED|OVERDUE|DELETED)/),
     })
     .min(1)
-    .max(7);
+    .max(8);
   return {
     create,
     update,
