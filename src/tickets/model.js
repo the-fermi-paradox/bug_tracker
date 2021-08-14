@@ -39,7 +39,8 @@ const model = (() => {
 
   const sum = async () => {
     const query = await db.ask(`SELECT SUM(state = 'OPEN') open_count,
-    SUM(state = 'CLOSED') closed_count`);
+    SUM(state = 'CLOSED') closed_count
+    FROM tickets;`);
 
     return await query;
   };
