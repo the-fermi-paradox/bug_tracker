@@ -7,6 +7,11 @@ const controller = (() => {
     res.json(data);
   };
 
+  const sum = async (req, res, next) => {
+    const data = await service.sum().catch((err) => next(new DBError(err)));
+    res.json(data);
+  };
+
   const get = async (req, res, next) => {
     const { id } = req.params;
     const data = await service.get(id).catch((err) => next(new DBError(err)));
@@ -60,6 +65,7 @@ const controller = (() => {
 
   return {
     list,
+    sum,
     get,
     create,
     remove,

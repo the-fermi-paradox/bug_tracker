@@ -11,6 +11,8 @@ const router = express.Router();
 // GET a list of all tickets
 router.get('/', controller.list);
 
+router.get('/sum', controller.sum);
+
 // GET a specific ticket
 router.get('/:id', checkId, controller.get);
 

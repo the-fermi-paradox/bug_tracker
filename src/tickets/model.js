@@ -36,6 +36,13 @@ const model = (() => {
 
     return await query;
   };
+
+  const sum = async () => {
+    const query = await db.ask(`SELECT SUM(state = 'OPEN') open_count,
+    SUM(state = 'CLOSED') closed_count`);
+
+    return await query;
+  };
   const remove = async (id) => {
     const query = await db.ask('DELETE * FROM tickets WHERE id=(?)', [id]);
 
@@ -45,6 +52,7 @@ const model = (() => {
   return {
     create,
     list,
+    sum,
     get,
     update,
     remove,
