@@ -10,7 +10,7 @@ const model = (() => {
   const update = async (id, key, value) => await db.ask(`UPDATE products SET ${key}=(?) WHERE id=(?);`, [value, id]);
   const get = async (id) => await db.ask('SELECT * FROM products WHERE id=(?)', [id]);
   const list = async () => {
-    const query = `SELECT t2.title,
+    const query = `SELECT t2.*,
     SUM(state = 'OPEN') open_count,
     SUM(state = 'CLOSED') closed_count
     FROM tickets AS t1
