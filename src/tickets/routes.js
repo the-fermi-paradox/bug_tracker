@@ -13,6 +13,8 @@ router.get('/', controller.list);
 
 router.get('/sum', controller.sum);
 
+router.get('/by-product/:id', checkId, controller.byProduct);
+
 // GET a specific ticket
 router.get('/:id', checkId, controller.get);
 

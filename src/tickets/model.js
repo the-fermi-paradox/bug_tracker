@@ -44,6 +44,12 @@ const model = (() => {
 
     return await query;
   };
+
+  const byProduct = async (id) => {
+    const query = await db.ask(`SELECT * FROM tickets WHERE product_id=${id}`);
+    return await query;
+  };
+
   const remove = async (id) => {
     const query = await db.ask('DELETE * FROM tickets WHERE id=(?)', [id]);
 
@@ -54,6 +60,7 @@ const model = (() => {
     create,
     list,
     sum,
+    byProduct,
     get,
     update,
     remove,

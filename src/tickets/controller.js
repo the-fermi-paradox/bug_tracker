@@ -12,6 +12,14 @@ const controller = (() => {
     res.json(data);
   };
 
+  const byProduct = async (req, res, next) => {
+    const { id } = req.params;
+    const data = await service
+      .byProduct(id)
+      .catch((err) => next(new DBError(err)));
+    res.json(data);
+  };
+
   const get = async (req, res, next) => {
     const { id } = req.params;
     const data = await service.get(id).catch((err) => next(new DBError(err)));
@@ -66,6 +74,7 @@ const controller = (() => {
   return {
     list,
     sum,
+    byProduct,
     get,
     create,
     remove,
