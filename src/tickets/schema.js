@@ -26,8 +26,10 @@ const schema = (() => {
 
       // All tickets should be part of a broader product
       product_id: joi.number().integer().required(),
+
+      due_date: joi.date(),
     })
-    .max(7);
+    .max(8);
 
   const update = joi
     .object({
@@ -39,13 +41,14 @@ const schema = (() => {
       flavor: joi.string().alphanum().min(3).max(60),
       reporter_id: joi.number().integer(),
       product_id: joi.number().integer(),
+      due_date: joi.date(),
       state: joi
         .string()
         .case('upper')
         .pattern(/(OPEN|CLOSED|OVERDUE|DELETED)/),
     })
     .min(1)
-    .max(8);
+    .max(9);
   return {
     create,
     update,

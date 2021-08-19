@@ -2,19 +2,27 @@ const db = require('../../database');
 
 const model = (() => {
   const create = async (data) => {
+    const parameterArray = [
+      data.title,
+      data.description,
+      data.flavor,
+      data.priority,
+      data.severity,
+      data.reporter_id,
+      data.product_id,
+    ];
+    let parameterString = 'title, description, flavor, priority, severity, reporter_id, product_id';
+    let questionString = '?, ?, ?, ?, ?, ?, ?';
+    if (data.due_date) {
+      parameterArray.push(data.due_date);
+      parameterString += ', due_date';
+      questionString += ', ?';
+    }
     const query = await db.ask(
-      'INSERT INTO tickets(title, description, flavor, priority, severity, reporter_id, product_id) VALUES(?, ?, ?, ?, ?, ?, ?)',
-      [
-        data.title,
-        data.description,
-        data.flavor,
-        data.priority,
-        data.severity,
-        data.reporter_id,
-        data.product_id,
-      ],
+      `INSERT INTO tickets(${parameterString}) 
+        VALUES(${questionString})`,
+      parameterArray,
     );
-
     return await query;
   };
   const update = async (id, key, value) => {
