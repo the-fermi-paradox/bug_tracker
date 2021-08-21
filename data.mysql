@@ -20,36 +20,38 @@ INSERT INTO products(title, maintainer_id) VALUES("React Frontend", 6);
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Can't start server", "I'm having difficulty
-starting the server when run on Debian 11 and I can't figure out why. nginx throws an error.", "Bug", 1, 1, 3, 1, 2021-12-23 00:00:00);
+starting the server when run on Debian 11 and I can't figure out why. nginx
+throws an error.", "Bug", 1, 1, 3, 1, '2021-12-23 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Keep SSL certificate up to date with cron", "We should
 set up a crontab to run certbot every few months and keep our certificates up
-to date.", "Upgrade", 1, 1, 2, 1, 2021-10-09 00:00:00);
+to date.", "Upgrade", 1, 1, 2, 1, '2021-10-09 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Can't connect to database", "The database connector
-is throwing an error.", "Bug", 1, 1, 2, 2, 2021-10-23 00:00:00);
+is throwing an error.", "Bug", 1, 1, 2, 2, '2021-10-23' 00:00:00);
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Migrate tables to InnoDB", "We should migrate to
-using InnoDB for our database engine for all tables in our database.", "Migration", 1, 1, 2, 2, 2021-09-23 00:00:00);
+using InnoDB for our database engine for all tables in our database.",
+"Migration", 1, 1, 2, 2, '2021-09-23 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("The connection pool is failing to free up a new
 connection in a timely manner with large numbers of simultaneous users", "Since
 our application now serves many thousands of users, we need to embrace
 a strategy that can scale more effectively. We should add additional pools to handle
-this scenario", "Refactor", 1, 1, 2, 2, 2021-11-09 00:00:00);
+this scenario", "Refactor", 1, 1, 2, 2, '2021-11-09 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Too many repetitive routes", "The routes we use in
 our application need to be refactored to adhere to the DRY principle",
-"Refactor", 1, 1, 3, 5, 2021-9-23 00:00:00);
+"Refactor", 1, 1, 3, 5, '2021-09-23 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Consider moving to an ORM", "We have a lot of code
 duplication, as I mentioned in another issue regarding routes. SQL is great,
 and I get your enthusiasm for it, but we should really try and move to
 a lightweight ORM so we can stop repeating ourselves in our models.",
-"Refactor", 1, 1, 3, 5, 2021-9-23 00:00:00);
+"Refactor", 1, 1, 3, 5, '2021-09-23 00:00:00');
