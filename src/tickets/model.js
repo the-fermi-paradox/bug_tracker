@@ -37,7 +37,7 @@ const model = (() => {
   };
   const get = async (id) => {
     const query = await db.ask(
-      'SELECT tickets.*, users.id, users.user_name FROM tickets WHERE id=(?) LEFT JOIN users ON tickets.reporter_id = users.id',
+      'SELECT tickets.*, users.id AS user_id, users.user_name FROM tickets LEFT JOIN users ON tickets.reporter_id = users.id WHERE tickets.id=(?)',
       [id],
     );
 
