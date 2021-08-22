@@ -1,6 +1,7 @@
 const db = require('../../database');
 
 const model = (() => {
+  // The due date can be null, so we modify our query based on the input
   const create = async (data) => {
     const parameterArray = [
       data.title,
@@ -35,7 +36,10 @@ const model = (() => {
     return await query;
   };
   const get = async (id) => {
-    const query = await db.ask('SELECT * FROM tickets WHERE id=(?)', [id]);
+    const query = await db.ask(
+      'SELECT tickets.*, users.id, users.user_name FROM tickets WHERE id=(?) LEFT JOIN users ON tickets.reporter_id = users.id',
+      [id],
+    );
 
     return await query;
   };
