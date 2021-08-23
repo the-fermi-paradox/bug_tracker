@@ -30,7 +30,7 @@ to date.", "Upgrade", 1, 1, 2, 1, '2021-10-09 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Can't connect to database", "The database connector
-is throwing an error.", "Bug", 1, 1, 2, 2, '2021-10-23' 00:00:00);
+is throwing an error.", "Bug", 1, 1, 2, 2, '2021-10-23 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
 reporter_id, product_id, due_date) VALUES("Migrate tables to InnoDB", "We should migrate to
