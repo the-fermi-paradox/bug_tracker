@@ -38,8 +38,8 @@ using InnoDB for our database engine for all tables in our database.",
 "Migration", 1, 1, 2, 2, '2021-09-23 00:00:00');
 #
 INSERT INTO tickets(title, description, flavor, priority, severity,
-reporter_id, product_id, due_date) VALUES("The connection pool is failing to free up a new
-connection in a timely manner with large numbers of simultaneous users", "Since
+reporter_id, product_id, due_date) VALUES("The connection pool is failing to
+free up a new connection", "Since
 our application now serves many thousands of users, we need to embrace
 a strategy that can scale more effectively. We should add additional pools to handle
 this scenario", "Refactor", 1, 1, 2, 2, '2021-11-09 00:00:00');

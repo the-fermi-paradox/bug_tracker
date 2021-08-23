@@ -8,7 +8,10 @@ const model = (() => {
   // There's no risk of SQL injection here - key is validated beforehand in
   // middleware
   const update = async (id, key, value) => await db.ask(`UPDATE comments SET ${key}=(?) WHERE id=(?);`, [value, id]);
-  const get = async (id) => await db.ask('SELECT * FROM comments WHERE ticket_id=(?)', [id]);
+  const get = async (id) => await db.ask(
+    'SELECT comments.*, users.user_name FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.ticket_id=(?)',
+    [id],
+  );
   const list = async () => await db.ask('SELECT * FROM comments');
   const remove = async (id) => await db.ask('DELETE * FROM comments WHERE id=(?)', [id]);
 
