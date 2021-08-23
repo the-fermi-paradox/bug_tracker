@@ -6,6 +6,7 @@ const logger = require('./src/helpers/logger');
 const tickets = require('./src/tickets/routes');
 const users = require('./src/users/routes');
 const products = require('./src/products/routes');
+const comments = require('./src/comments/routes');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use('/tickets', tickets);
 app.use('/users', users);
 app.use('/products', products);
+app.use('/comments', comments);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
