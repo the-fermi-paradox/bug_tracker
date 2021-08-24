@@ -9,11 +9,11 @@ const model = (() => {
   // middleware
   const update = async (id, key, value) => await db.ask(`UPDATE comments SET ${key}=(?) WHERE id=(?);`, [value, id]);
   const get = async (id) => await db.ask(
-    'SELECT comments.*, users.user_name FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.ticket_id=(?)',
+    'SELECT comments.*, users.user_name FROM comments LEFT JOIN users ON comments.user_id = users.id WHERE comments.ticket_id=(?) AND comments.inactive=FALSE',
     [id],
   );
   const list = async () => await db.ask('SELECT * FROM comments');
-  const remove = async (id) => await db.ask('DELETE * FROM comments WHERE id=(?)', [id]);
+  const remove = async (id) => await db.ask('UPDATE comments SET inactive=TRUE WHERE id=(?)', [id]);
 
   return {
     create,
