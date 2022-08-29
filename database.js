@@ -16,8 +16,7 @@ class Database {
     let logString = query;
     if (params) {
       for (let i = 0; i < params.length; i += 1) {
-        const val = params[i];
-        logString = logString.replace('?', val);
+        logString = logString.replace('?', params[i]);
       }
     }
     logger.db(logString);
